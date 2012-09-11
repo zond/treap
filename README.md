@@ -17,3 +17,7 @@ I made a set of benchmarks comparing the Treap type with the native map:
 Not too shabby.
 
 Only drawback is that the only key types allowed in Treap is `[]byte`. But I usually have no trouble converting keys to `[]byte` for these cases.
+
+## Documentation
+
+http://go.pkgdoc.org/github.com/zond/treap
