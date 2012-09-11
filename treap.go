@@ -1,10 +1,9 @@
-
 package treap
 
 import (
 	"bytes"
-	"math/rand"
 	"fmt"
+	"math/rand"
 	"time"
 )
 
@@ -29,6 +28,7 @@ type Treap struct {
 	size int
 	root *node
 }
+
 /*
  Put will insert something in the Treap under a given key. 
  It will overwrite any previous value, and return the previous value and whether there was a previous value.
@@ -40,6 +40,7 @@ func (self *Treap) Put(key []byte, value Thing) (old Thing, existed bool) {
 	}
 	return
 }
+
 /*
  Get will return something from the Treap. 
  It will return the value found, and whether any value was found.
@@ -47,6 +48,7 @@ func (self *Treap) Put(key []byte, value Thing) (old Thing, existed bool) {
 func (self *Treap) Get(key []byte) (value Thing, existed bool) {
 	return self.root.get(key)
 }
+
 /*
  Describe returns a string describing the tree structure of the Treap.
 */
@@ -55,6 +57,7 @@ func (self *Treap) Describe() string {
 	self.root.describe(0, buffer)
 	return string(buffer.Bytes())
 }
+
 /*
  Del will remove a value from the Treap.
  It will return the value deleted and whether a value was deleted.
@@ -66,30 +69,35 @@ func (self *Treap) Del(key []byte) (old Thing, existed bool) {
 	}
 	return
 }
+
 /*
  Up will execute the given iterator on every key/value pair in the Treap where from <= key < below.
 */
 func (self *Treap) Up(from, below []byte, f TreapIterator) {
 	self.root.up(from, below, f)
 }
+
 /*
  Down will execute the given iterator on every key/value pair in the Treap where from >= key > above.
 */
 func (self *Treap) Down(from, above []byte, f TreapIterator) {
 	self.root.down(from, above, f)
 }
+
 /*
  Size will return the size of the Treap.
 */
 func (self *Treap) Size() int {
 	return self.size
 }
+
 /*
  String will return a simple string representation of the Treap.
 */
 func (self *Treap) String() string {
 	return fmt.Sprint(self.ToMap())
 }
+
 /*
  ToMap will return a map[string]Thing with the Treap keys converted to string.
 */
@@ -116,28 +124,29 @@ func merge(left, right *node) (result *node) {
 
 type node struct {
 	weight int32
-	left *node
-	right *node
-	key []byte
-	value Thing
+	left   *node
+	right  *node
+	key    []byte
+	value  Thing
 }
+
 func newNode(key []byte, value Thing) (rval *node) {
 	rval = &node{
 		weight: rand.Int31(),
-		key: key,
-		value: value,
+		key:    key,
+		value:  value,
 	}
 	return
 }
 func (self *node) describe(indent int, buffer *bytes.Buffer) {
 	if self != nil {
-		self.left.describe(indent + 1, buffer)
+		self.left.describe(indent+1, buffer)
 		indentation := &bytes.Buffer{}
 		for i := 0; i < indent; i++ {
 			fmt.Fprint(indentation, " ")
 		}
 		fmt.Fprintf(buffer, "%v%v [%v] => %v\n", string(indentation.Bytes()), self.key, self.weight, self.value)
-		self.right.describe(indent + 1, buffer)
+		self.right.describe(indent+1, buffer)
 	}
 }
 func (self *node) get(key []byte) (value Thing, existed bool) {
@@ -150,7 +159,7 @@ func (self *node) get(key []byte) (value Thing, existed bool) {
 		default:
 			value, existed = self.value, true
 		}
-		
+
 	}
 	return
 }

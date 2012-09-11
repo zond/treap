@@ -1,10 +1,9 @@
-
 package treap
 
 import (
-	"testing"
 	"fmt"
 	"reflect"
+	"testing"
 )
 
 func assertMappness(t *testing.T, treap *Treap, m map[string]Thing) {
@@ -86,7 +85,7 @@ func benchTreap(b *testing.B, n int) {
 		v = append(v, []byte(fmt.Sprint(i)))
 	}
 	b.StartTimer()
-	for j := 0; j < b.N / n; j++ {
+	for j := 0; j < b.N/n; j++ {
 		m := new(Treap)
 		for i := 0; i < n; i++ {
 			k := v[i]
@@ -106,7 +105,7 @@ func benchMap(b *testing.B, n int) {
 		v = append(v, fmt.Sprint(i))
 	}
 	b.StartTimer()
-	for j := 0; j < b.N / n; j++ {
+	for j := 0; j < b.N/n; j++ {
 		m := make(map[string]Thing)
 		for i := 0; i < n; i++ {
 			k := v[i]
@@ -156,4 +155,3 @@ func BenchmarkMap100000(b *testing.B) {
 func BenchmarkMap1000000(b *testing.B) {
 	benchMap(b, 1000000)
 }
-
