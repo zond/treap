@@ -12,14 +12,27 @@ func init() {
 	rand.Seed(time.Now().UnixNano())
 }
 
+/*
+ Things of any kind can be values in the Treap.
+*/
 type Thing interface{}
 
+/*
+ TreapIterators iterate over the Treap.
+*/
 type TreapIterator func(key []byte, value Thing)
 
+/*
+ Treap is based on http://faculty.washington.edu/aragon/treaps.html like all other treaps.
+*/
 type Treap struct {
 	size int
 	root *node
 }
+/*
+ Put will insert something in the Treap under a given key. 
+ It will overwrite any previous value, and return the previous value and whether there was a previous value.
+*/
 func (self *Treap) Put(key []byte, value Thing) (old Thing, existed bool) {
 	self.root, existed, old = self.root.insert(newNode(key, value))
 	if !existed {
@@ -27,14 +40,25 @@ func (self *Treap) Put(key []byte, value Thing) (old Thing, existed bool) {
 	}
 	return
 }
+/*
+ Get will return something from the Treap. 
+ It will return the value found, and whether any value was found.
+*/
 func (self *Treap) Get(key []byte) (value Thing, existed bool) {
 	return self.root.get(key)
 }
+/*
+ Describe returns a string describing the tree structure of the Treap.
+*/
 func (self *Treap) Describe() string {
 	buffer := bytes.NewBufferString(fmt.Sprintf("<Treap size:%v>\n", self.Size()))
 	self.root.describe(0, buffer)
 	return string(buffer.Bytes())
 }
+/*
+ Del will remove a value from the Treap.
+ It will return the value deleted and whether a value was deleted.
+*/
 func (self *Treap) Del(key []byte) (old Thing, existed bool) {
 	self.root, existed, old = self.root.del(key)
 	if existed {
@@ -42,18 +66,33 @@ func (self *Treap) Del(key []byte) (old Thing, existed bool) {
 	}
 	return
 }
+/*
+ Up will execute the given iterator on every key/value pair in the Treap where from <= key < below.
+*/
 func (self *Treap) Up(from, below []byte, f TreapIterator) {
 	self.root.up(from, below, f)
 }
+/*
+ Down will execute the given iterator on every key/value pair in the Treap where from >= key > above.
+*/
 func (self *Treap) Down(from, above []byte, f TreapIterator) {
 	self.root.down(from, above, f)
 }
+/*
+ Size will return the size of the Treap.
+*/
 func (self *Treap) Size() int {
 	return self.size
 }
+/*
+ String will return a simple string representation of the Treap.
+*/
 func (self *Treap) String() string {
 	return fmt.Sprint(self.ToMap())
 }
+/*
+ ToMap will return a map[string]Thing with the Treap keys converted to string.
+*/
 func (self *Treap) ToMap() map[string]Thing {
 	rval := make(map[string]Thing)
 	self.Up(nil, nil, func(key []byte, value Thing) {
