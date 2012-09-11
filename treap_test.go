@@ -138,6 +138,21 @@ func BenchmarkTreap1000000(b *testing.B) {
 	benchTreap(b, 1000000)
 }
 
+func BenchmarkMap10(b *testing.B) {
+	benchMap(b, 10)
+}
+func BenchmarkMap100(b *testing.B) {
+	benchMap(b, 100)
+}
+func BenchmarkMap1000(b *testing.B) {
+	benchMap(b, 1000)
+}
+func BenchmarkMap10000(b *testing.B) {
+	benchMap(b, 10000)
+}
+func BenchmarkMap100000(b *testing.B) {
+	benchMap(b, 1000000)
+}
 func BenchmarkMap1000000(b *testing.B) {
 	benchMap(b, 1000000)
 }
